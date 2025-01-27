@@ -1,6 +1,7 @@
 package andrewSkye.tests;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -74,4 +75,12 @@ public class StandAloneTest {
 		softAssert.assertAll();
 	}
 
+	
+	@Test
+	public void testSomething() {
+		ArrayList<String> test = new ArrayList<String>();
+		test.add("Fudge");
+		boolean fudgeFound = !test.stream().filter(s->s.equalsIgnoreCase("Fudge")).findFirst().isEmpty();
+		System.out.println(fudgeFound);
+	}
 }
