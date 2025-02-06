@@ -6,9 +6,13 @@ import java.util.Random;
 import java.util.Set;
 
 import org.testng.Assert;
+import org.testng.ITestContext;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
 
 import andrewSkye.baseObjects.BaseTest;
 import andrewSkye.herokuapp.pages.ABTestingPage;
@@ -33,19 +37,22 @@ public class HerokuappTests extends BaseTest {
 	 * Checks if the title and header are correct in AB Testing page
 	 */
 	@Test
-	public void testABPage() {
-		SoftAssert softAssert = new SoftAssert();
+	public void testABPage(ITestContext context) {
 		String expectedHeader = "A/B Test";
 		String expectedTitle = "The Internet";
+		ExtentTest extentTest = createExtentTest("AB Page", "Checks the page title is " + expectedTitle + " and page header contains " + expectedHeader + ".",context);
 
+		extentTest.log(Status.INFO, "Clicking into AB Page");
 		ABTestingPage abPage = mainPage.goToABTestingPage();
+		
+		extentTest.log(Status.INFO, "Collecting page title");
 		String pageTitle = abPage.getTitle();
 		softAssert.assertEquals(expectedTitle, pageTitle);
 
+		extentTest.log(Status.INFO, "Collecting page header");
 		String pageHeader = abPage.getHeader();
 		softAssert.assertTrue(pageHeader.contains(expectedHeader));
 		softAssert.assertAll();
-		
 	}
 	
 	/*
@@ -53,10 +60,16 @@ public class HerokuappTests extends BaseTest {
 	 * Checks if the page can dynamically load with duplicate elements.
 	 */
 	@Test
-	public void testDynamicPage() {
+	public void testDynamicPage(ITestContext context) {		
+		ExtentTest extentTest = createExtentTest("Dynamic Content Page", "Checks if user can find a page with 3 duplicated avatars within 50 refreshes.", context);
+		
+		extentTest.log(Status.INFO, "Clicking into Dynamic Content Page");	
 		DynamicContentPage dynamicPage = mainPage.goToDynamicContentPage();
 
-		boolean foundDuplicates = dynamicPage.refreshUntilDuplicateAvatars(3, 50);
+		extentTest.log(Status.INFO, "Refreshing page up to 50 times");
+		boolean foundDuplicates = dynamicPage.refreshUntilDuplicateAvatars(3, 50);	
+		
+		extentTest.log(Status.INFO, "Checking if duplicates existed");
 		Assert.assertTrue(foundDuplicates, "Unable to find page with 3 repeated Avatars within 50 refreshes. ");
 	}
 	
@@ -65,10 +78,16 @@ public class HerokuappTests extends BaseTest {
 	 * Checks an impossible scenario that is expected to report a test failure every time.
 	 */
 	@Test
-	public void testDynamicPageFailure() {
+	public void testDynamicPageFailure(ITestContext context) {
+		ExtentTest extentTest = createExtentTest("Dynamic Content Page Failure", "Checks if user can find a page with 4 duplicated avatars within 5 refreshes (impossible condition).",context);
+		
+		extentTest.log(Status.INFO, "Clicking into Dynamic Content Page");
 		DynamicContentPage dynamicPage = mainPage.goToDynamicContentPage();
 
+		extentTest.log(Status.INFO, "Refreshing page up to 5 times");
 		boolean foundDuplicates = dynamicPage.refreshUntilDuplicateAvatars(4, 5);
+		
+		extentTest.log(Status.INFO, "Checking if impossible condition somehow occurred");
 		Assert.assertTrue(foundDuplicates, "Unable to find page with 4 repeated Avatars within 5 refreshes. ");
 	}
 	
@@ -77,16 +96,22 @@ public class HerokuappTests extends BaseTest {
 	 * Checks if user profile matches with the user clicked.
 	 */
 	@Test
-	public void testHoversPage() {
+	public void testHoversPage(ITestContext context) {
+		ExtentTest extentTest = createExtentTest("Hovers Page", "Clicks into a random user profile and checks if it loads the correct profile.",context);
+		
+		extentTest.log(Status.INFO, "Clicking into Hovers Page");
 		HoversPage hoversPage = mainPage.goToHoversPage();
+		
+		extentTest.log(Status.INFO, "Collecting user information");
 		List<String> users = hoversPage.getAllUserNames();
 		
+		extentTest.log(Status.INFO, "Clicking into a random user profile page");
 		Random random = new Random();
 		int randIndex = random.nextInt(users.size());
 		String user = users.get(randIndex);
 		HoversProfilePage profilePage = hoversPage.goToProfile(user);
-		String profileUrl = profilePage.getUrl();
 		
+		String profileUrl = profilePage.getUrl();
 		Assert.assertEquals(user.charAt(user.length()-1),profileUrl.charAt(profileUrl.length()-1));
 	}
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite parallel="classes" name="Selenium Tests">
+<suite parallel="tests" name="Selenium Tests">
 
 	<listeners>
-		<listener class-name="andrewSkye.resources.TestListener" />
+		<listener class-name="andrewSkye.resources.TestNGListener" />
 	</listeners>
 
 	<test thread-count="5" name="Herokuapp Test">

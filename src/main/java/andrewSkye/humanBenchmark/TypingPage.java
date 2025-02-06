@@ -27,14 +27,12 @@ public class TypingPage extends BasePage {
 	public TypingPage(WebDriver driver) {
 		super(driver);
 		action = new Actions(driver);
-		parseFullParagraph();
-		System.out.println(paragraph);
 	}
 
 	/*
 	 * Parses the paragraph displayed on-screen into the 'paragraph' String value.
 	 */
-	private void parseFullParagraph() {
+	public void parseFullParagraph() {
 		for (WebElement character : characters) {
 			String c = character.getText();
 			if (c.isBlank()) {
