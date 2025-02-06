@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="Internet Herokuapp">
+<suite parallel = "tests" name="Selenium Tests">
   <test thread-count="5" name="Herokuapp Test">
   	<classes>
   		 <class name="andrewSkye.tests.HerokuappTests"/>
   	</classes>
-  </test> <!-- Standalone -->
-</suite> <!-- Internet Herokuapp -->
+  </test> 
+  <test name="Human Benchmark Test">
+  	<classes>
+  		<class name="andrewSkye.tests.HumanBenchmarkTests"/>
+  	</classes>
+  </test>
+</suite>

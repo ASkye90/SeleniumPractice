@@ -1,12 +1,18 @@
 package andrewSkye.tests;
 
-import org.testng.annotations.AfterMethod;
+
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import andrewSkye.baseObjects.BaseTest;
 import andrewSkye.herokuapp.pages.ABTestingPage;
 import andrewSkye.herokuapp.pages.DynamicContentPage;
 import andrewSkye.herokuapp.pages.HerokuappMainPage;
+import andrewSkye.herokuapp.pages.HoversPage;
+import andrewSkye.herokuapp.pages.HoversProfilePage;
 
 public class HerokuappTests extends BaseTest {
 
@@ -21,7 +27,7 @@ public class HerokuappTests extends BaseTest {
 	}
 	
 	/*
-	 * Checking if the title and header are correct in AB Testing page
+	 * Checks if the title and header are correct in AB Testing page
 	 */
 	@Test
 	public void testABPage() {
@@ -35,11 +41,12 @@ public class HerokuappTests extends BaseTest {
 		String pageHeader = abPage.getHeader();
 		softAssert.assertTrue(pageHeader.contains(expectedHeader));
 		softAssert.assertAll();
+		
 	}
 	
 	/*
 	 * Flaky test
-	 * Checking if the page can dynamically load with duplicate elements.
+	 * Checks if the page can dynamically load with duplicate elements.
 	 */
 	@Test
 	public void testDynamicPage() {
@@ -50,4 +57,22 @@ public class HerokuappTests extends BaseTest {
 		softAssert.assertAll();
 	}
 	
+	/*
+	 * Clicks into a random user profile.
+	 * Checks if user profile matches with the user clicked.
+	 */
+	@Test
+	public void testHoversPage() {
+		HoversPage hoversPage = mainPage.goToHoversPage();
+		List<String> users = hoversPage.getAllUserNames();
+		
+		Random random = new Random();
+		int randIndex = random.nextInt(users.size());
+		String user = users.get(randIndex);
+		HoversProfilePage profilePage = hoversPage.goToProfile(user);
+		String profileUrl = profilePage.getUrl();
+		
+		softAssert.assertEquals(user.charAt(user.length()-1),profileUrl.charAt(profileUrl.length()-1));
+		softAssert.assertAll();
+	}
 }

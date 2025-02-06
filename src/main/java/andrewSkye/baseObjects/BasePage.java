@@ -18,4 +18,8 @@ public class BasePage {
 	public String getTitle() {
 		return driver.getTitle();
 	}
+	
+	public String getUrl() {
+		return driver.getCurrentUrl();
+	}
 }

@@ -2,35 +2,35 @@ package andrewSkye.herokuapp.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
+import andrewSkye.baseObjects.BaseMainPage;
 import andrewSkye.baseObjects.BasePage;
 
-public class HerokuappMainPage extends BasePage {
-
-	private String url = "https://the-internet.herokuapp.com/";
+public class HerokuappMainPage extends BaseMainPage {
 	
 	public HerokuappMainPage(WebDriver driver) {
 		super(driver);
-	}
-	
-	public void goToMainPage() {
-		if (driver.getCurrentUrl() != url) {
-			driver.get(url);
-		}
+		url = "https://the-internet.herokuapp.com/";
 	}
 	
 	public ABTestingPage goToABTestingPage() {
 		goToMainPage();
-		ABTestingPage newPage = new ABTestingPage(driver);
 		driver.findElement(By.cssSelector("a[href$='abtest']")).click();
-		return newPage;
+		return new ABTestingPage(driver);
 	}
 	
 	
 	public DynamicContentPage goToDynamicContentPage() {
 		goToMainPage();
-		DynamicContentPage newPage = new DynamicContentPage(driver);
 		driver.findElement(By.cssSelector("a[href$='dynamic_content']")).click();
-		return newPage;
+		return new DynamicContentPage(driver);
+	}
+	
+	public HoversPage goToHoversPage() {
+		goToMainPage();
+		driver.findElement(By.cssSelector("a[href$='hovers']")).click();
+		return new HoversPage(driver);
 	}
 }
