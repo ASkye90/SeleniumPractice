@@ -13,15 +13,14 @@ public class TypingPage extends BasePage {
 
 	private String paragraph = "";
 	private Actions action;
-	
-	
-	@FindBy(className="letters")
+
+	@FindBy(className = "letters")
 	private WebElement playSpace;
-	
+
 	@FindBy(className = "incomplete")
 	private List<WebElement> characters;
-	
-	@FindBy(css=".css-1qvtbrk h1")
+
+	@FindBy(css = ".css-1qvtbrk h1")
 	private WebElement fullResult;
 
 	public TypingPage(WebDriver driver) {
@@ -42,11 +41,11 @@ public class TypingPage extends BasePage {
 			}
 		}
 	}
-	
+
 	/*
 	 * Types the full paragraph into the window.
 	 * 
-	 * @return	Integer	Words Per Minute given after finishing typing.
+	 * @return Integer Words Per Minute given after finishing typing.
 	 */
 	public Integer typeTest() {
 		action.moveToElement(playSpace).click().build().perform();

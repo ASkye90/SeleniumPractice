@@ -19,37 +19,37 @@ public class HoversPage extends BasePage {
 
 	private Actions action;
 	private WebDriverWait wait;
-	private HashMap<String,WebElement> userToFigure;
-	
-	@FindBy(css="div.figure")
+	private HashMap<String, WebElement> userToFigure;
+
+	@FindBy(css = "div.figure")
 	private List<WebElement> figures;
-	
-	
+
 	public HoversPage(WebDriver driver) {
 		super(driver);
 		action = new Actions(driver);
-		wait = new WebDriverWait(driver,Duration.ofSeconds(5));
+		wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 		userToFigure = mapAllUsers();
 	}
-	
+
 	/*
-	 * Hovers over each figure on the page and then maps their corresponding user name to them.
+	 * Hovers over each figure on the page and then maps their corresponding user
+	 * name to them.
 	 * 
 	 * @return HashMap mapping String user name to WebElement figure.
 	 */
-	private HashMap<String,WebElement> mapAllUsers() {
-		HashMap<String,WebElement> newUserToImage = new HashMap<String,WebElement>();
+	private HashMap<String, WebElement> mapAllUsers() {
+		HashMap<String, WebElement> newUserToImage = new HashMap<String, WebElement>();
 		wait.until(ExpectedConditions.visibilityOfAllElements(figures));
-		for (WebElement figure:figures) {
+		for (WebElement figure : figures) {
 			action.moveToElement(figure).build().perform();
 			String user = figure.findElement(By.tagName("h5")).getText().split(" ")[1];
 			newUserToImage.put(user, figure);
 		}
 		return newUserToImage;
 	}
-	
+
 	/*
-	 * @return	List of all users visible when hovering over images on the page.
+	 * @return List of all users visible when hovering over images on the page.
 	 */
 	public List<String> getAllUserNames() {
 		return userToFigure.keySet().stream().collect(Collectors.toList());
@@ -58,17 +58,16 @@ public class HoversPage extends BasePage {
 	/*
 	 * Switches to profile page of given user.
 	 * 
-	 * @param	user	Given user.
-	 * @return	HoversProfilePage	New profile page sharing same driver.
+	 * @param user Given user.
+	 * 
+	 * @return HoversProfilePage New profile page sharing same driver.
 	 */
 	public HoversProfilePage goToProfile(String user) {
-		
+
 		WebElement figure = userToFigure.get(user);
 		action.moveToElement(figure).build().perform();
 		figure.findElement(By.tagName("a")).click();
 		return new HoversProfilePage(driver);
 	}
-	
-	
-	
+
 }

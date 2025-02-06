@@ -11,9 +11,9 @@ import com.aventstack.extentreports.Status;
 
 public class TestNGRetry implements IRetryAnalyzer {
 
-	int count=0;
-	int maxTry=2;
-	
+	int count = 0;
+	int maxTry = 2;
+
 	@Override
 	public boolean retry(ITestResult result) {
 		ExtentTest test = (ExtentTest) result.getTestContext().getAttribute("extentTest");
@@ -31,10 +31,9 @@ public class TestNGRetry implements IRetryAnalyzer {
 			test.log(Status.INFO, "Retrying test due to flaky test failure.");
 			return true;
 		}
-		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 	private String getScreenshot(WebDriver driver) {
 		TakesScreenshot ts = (TakesScreenshot) driver;
 		return ts.getScreenshotAs(OutputType.BASE64);

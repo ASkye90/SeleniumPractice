@@ -8,7 +8,7 @@ import org.openqa.selenium.support.PageFactory;
 public class BasePage {
 
 	protected WebDriver driver;
-		
+
 	public BasePage(WebDriver driver) {
 		this.driver = driver;
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
@@ -18,7 +18,7 @@ public class BasePage {
 	public String getTitle() {
 		return driver.getTitle();
 	}
-	
+
 	public String getUrl() {
 		return driver.getCurrentUrl();
 	}

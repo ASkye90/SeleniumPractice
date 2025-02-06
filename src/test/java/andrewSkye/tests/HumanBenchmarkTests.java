@@ -29,7 +29,8 @@ public class HumanBenchmarkTests extends BaseTest {
 	 */
 	@Test
 	public void testSingleReactionGame(ITestContext context) {
-		ExtentTest extentTest = createExtentTest("Reaction Game", "Runs a full 5 round reaction game and checks all reported times are above 0.",context);
+		ExtentTest extentTest = createExtentTest("Reaction Game",
+				"Runs a full 5 round reaction game and checks all reported times are above 0.", context);
 
 		extentTest.log(Status.INFO, "Clicking into Reaction Time");
 		ReactionTimePage reactionTime = mainPage.goToReactionTime();
@@ -60,7 +61,8 @@ public class HumanBenchmarkTests extends BaseTest {
 	 */
 	@Test
 	public void testTypingGame(ITestContext context) {
-		ExtentTest extentTest = createExtentTest("Typing Game", "Runs one typing round and checks the reported wpm is above 0.", context);
+		ExtentTest extentTest = createExtentTest("Typing Game",
+				"Runs one typing round and checks the reported wpm is above 0.", context);
 
 		extentTest.log(Status.INFO, "Clicking into Typing Game");
 		TypingPage typing = mainPage.goToTyping();
