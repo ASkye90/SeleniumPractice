@@ -16,13 +16,13 @@ public class TypingPage extends BasePage {
 	
 	
 	@FindBy(className="letters")
-	WebElement playSpace;
+	private WebElement playSpace;
 	
 	@FindBy(className = "incomplete")
-	List<WebElement> characters;
+	private List<WebElement> characters;
 	
 	@FindBy(css=".css-1qvtbrk h1")
-	WebElement fullResult;
+	private WebElement fullResult;
 
 	public TypingPage(WebDriver driver) {
 		super(driver);

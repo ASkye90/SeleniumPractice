@@ -3,13 +3,11 @@ package andrewSkye.tests;
 
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
@@ -20,6 +18,7 @@ import andrewSkye.herokuapp.pages.DynamicContentPage;
 import andrewSkye.herokuapp.pages.HerokuappMainPage;
 import andrewSkye.herokuapp.pages.HoversPage;
 import andrewSkye.herokuapp.pages.HoversProfilePage;
+import andrewSkye.resources.TestNGRetry;
 
 public class HerokuappTests extends BaseTest {
 
@@ -59,18 +58,21 @@ public class HerokuappTests extends BaseTest {
 	 * Flaky test
 	 * Checks if the page can dynamically load with duplicate elements.
 	 */
-	@Test
+	@Test(retryAnalyzer=TestNGRetry.class)
 	public void testDynamicPage(ITestContext context) {		
-		ExtentTest extentTest = createExtentTest("Dynamic Content Page", "Checks if user can find a page with 3 duplicated avatars within 50 refreshes.", context);
+		int numDuplicates = 3;
+		int maxRefreshes = 50;
+		ExtentTest extentTest = createExtentTest("Dynamic Content Page", "Checks if user can find a page with " + numDuplicates + " duplicated avatars within " + maxRefreshes + " refreshes.", context);
 		
 		extentTest.log(Status.INFO, "Clicking into Dynamic Content Page");	
 		DynamicContentPage dynamicPage = mainPage.goToDynamicContentPage();
 
-		extentTest.log(Status.INFO, "Refreshing page up to 50 times");
-		boolean foundDuplicates = dynamicPage.refreshUntilDuplicateAvatars(3, 50);	
+		extentTest.log(Status.INFO, "Refreshing page up to " + maxRefreshes + " times");
+		int numRefreshes = dynamicPage.refreshUntilDuplicateAvatars(numDuplicates, maxRefreshes);
+		extentTest.log(Status.INFO, "Refreshed page " + numRefreshes + " times");
 		
-		extentTest.log(Status.INFO, "Checking if duplicates existed");
-		Assert.assertTrue(foundDuplicates, "Unable to find page with 3 repeated Avatars within 50 refreshes. ");
+		extentTest.log(Status.INFO, "Checking if duplicates exist");
+		Assert.assertTrue(dynamicPage.hasNumDuplicateAvatars(numDuplicates), "Unable to find page with " + numDuplicates + " repeated Avatars within " + maxRefreshes + " refreshes. ");
 	}
 	
 	/*
@@ -85,10 +87,11 @@ public class HerokuappTests extends BaseTest {
 		DynamicContentPage dynamicPage = mainPage.goToDynamicContentPage();
 
 		extentTest.log(Status.INFO, "Refreshing page up to 5 times");
-		boolean foundDuplicates = dynamicPage.refreshUntilDuplicateAvatars(4, 5);
+		int numRefreshes = dynamicPage.refreshUntilDuplicateAvatars(4, 5);
+		extentTest.log(Status.INFO, "Refreshed page " + numRefreshes + " times");
 		
 		extentTest.log(Status.INFO, "Checking if impossible condition somehow occurred");
-		Assert.assertTrue(foundDuplicates, "Unable to find page with 4 repeated Avatars within 5 refreshes. ");
+		Assert.assertTrue(dynamicPage.hasNumDuplicateAvatars(4), "Unable to find page with 4 repeated Avatars within 5 refreshes.");
 	}
 	
 	/*

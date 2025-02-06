@@ -11,9 +11,11 @@
 			<class name="andrewSkye.tests.HerokuappTests" />
 		</classes>
 	</test>
+
 	<test thread-count="5" name="Human Benchmark Test">
 		<classes>
 			<class name="andrewSkye.tests.HumanBenchmarkTests" />
 		</classes>
 	</test>
+
 </suite>

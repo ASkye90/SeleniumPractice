@@ -9,13 +9,13 @@ import andrewSkye.baseObjects.BaseMainPage;
 
 public class HBMainPage extends BaseMainPage {
 
-	Actions action;
+	private Actions action;
 	
 	@FindBy(css="a[href$='reactiontime']")
-	WebElement reactionTimeButton;
+	private WebElement reactionTimeButton;
 	
 	@FindBy(css="a[href$='typing']")
-	WebElement typingButton;
+	private WebElement typingButton;
 	
 	public HBMainPage(WebDriver driver) {
 		super(driver);

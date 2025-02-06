@@ -19,33 +19,32 @@ private int turn;
 private int[] scores;
 public static int MAX_TURNS = 5;
 
-
 @FindBy(className="css-42wpoy")
-WebElement playSpace;
+private WebElement playSpace;
 
 @FindBy(className="view-splash")
-WebElement startShowing;
+private WebElement startShowing;
 
 @FindBy(className="view-waiting")
-WebElement waitShowing;
+private WebElement waitShowing;
 
 @FindBy(className="view-go")
-WebElement clickShowing;
+private WebElement clickShowing;
 
 @FindBy(className="view-result")
-WebElement resultShowing;
+private WebElement resultShowing;
 
 @FindBy(className="view-scold")
-WebElement failedShowing;
+private WebElement failedShowing;
 
 @FindBy(className="view-score")
-WebElement scoreShowing;
+private WebElement scoreShowing;
 
 @FindBy(css=".css-1qvtbrk div")
-WebElement individualResult;
+private WebElement individualResult;
 
 @FindBy(css=".css-1qvtbrk h1")
-WebElement fullResult;
+private WebElement fullResult;
 	
 	public ReactionTimePage(WebDriver driver) {
 		super(driver);

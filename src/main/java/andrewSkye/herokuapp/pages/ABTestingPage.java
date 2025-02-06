@@ -14,10 +14,10 @@ public class ABTestingPage extends BasePage {
 	}
 	
 	@FindBy(tagName="h3")
-	WebElement pageHeader;
+	private WebElement pageHeader;
 	
 	@FindBy(tagName="p")
-	WebElement paragraphText;
+	private WebElement paragraphText;
 	
 	/*
 	 * @return Header of page

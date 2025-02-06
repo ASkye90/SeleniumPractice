@@ -1,5 +1,6 @@
 package andrewSkye.herokuapp.pages;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -9,21 +10,25 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import andrewSkye.baseObjects.BasePage;
 
 public class HoversPage extends BasePage {
 
-	Actions action;
-
-	@FindBy(css="div.figure")
-	List<WebElement> figures;
+	private Actions action;
+	private WebDriverWait wait;
+	private HashMap<String,WebElement> userToFigure;
 	
-	HashMap<String,WebElement> userToFigure;
+	@FindBy(css="div.figure")
+	private List<WebElement> figures;
+	
 	
 	public HoversPage(WebDriver driver) {
 		super(driver);
 		action = new Actions(driver);
+		wait = new WebDriverWait(driver,Duration.ofSeconds(5));
 		userToFigure = mapAllUsers();
 	}
 	
@@ -34,6 +39,7 @@ public class HoversPage extends BasePage {
 	 */
 	private HashMap<String,WebElement> mapAllUsers() {
 		HashMap<String,WebElement> newUserToImage = new HashMap<String,WebElement>();
+		wait.until(ExpectedConditions.visibilityOfAllElements(figures));
 		for (WebElement figure:figures) {
 			action.moveToElement(figure).build().perform();
 			String user = figure.findElement(By.tagName("h5")).getText().split(" ")[1];

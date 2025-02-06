@@ -2,11 +2,8 @@ package andrewSkye.herokuapp.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 
 import andrewSkye.baseObjects.BaseMainPage;
-import andrewSkye.baseObjects.BasePage;
 
 public class HerokuappMainPage extends BaseMainPage {
 	

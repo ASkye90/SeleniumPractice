@@ -11,7 +11,13 @@ public class ExtentReporter {
 	public static ExtentReports getReportObject() {
 		LocalDate today = LocalDate.now();
 		LocalTime time = LocalTime.now();
-		String pathDate = today.getMonth().getValue() + "." + today.getDayOfMonth() + "." + today.getYear() + "." + time.getHour() + "." + time.getMinute();
+		String month = String.format("%02d", today.getMonth().getValue());
+		String day = String.format("%02d", today.getDayOfMonth());
+		String year = Integer.toString(today.getYear());
+		String hour = String.format("%02d", time.getHour());
+		String minute = String.format("%02d", time.getMinute());
+		String pathDate = month + "." + day + "." + year + "." + hour + "." + minute;
+		
 		String path = System.getProperty("user.dir") + "//reports//" + pathDate + ".html";
 		ExtentSparkReporter reporter = new ExtentSparkReporter(path);
 		reporter.config().setReportName("Automation Test Results");

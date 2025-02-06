@@ -12,7 +12,7 @@ import andrewSkye.baseObjects.BasePage;
 public class DynamicContentPage extends BasePage {
 	
 	@FindBy(css="div#content img")
-	List<WebElement> avatarImages;
+	private List<WebElement> avatarImages;
 	
 	public DynamicContentPage(WebDriver driver) {
 		super(driver);
@@ -51,19 +51,18 @@ public class DynamicContentPage extends BasePage {
 	 * 
 	 * @return True if page found with numAvatars Avatars within the given maxTries.
 	 */
-	public boolean refreshUntilDuplicateAvatars(int numAvatars, int maxTries) {
+	public Integer refreshUntilDuplicateAvatars(int numAvatars, int maxTries) {
 		int refreshes = 0;
 		do {
-			int totalAvatars = avatarImages.size();
-			long uniqueAvatars = avatarImages.stream().map(e->e.getDomAttribute("src")).distinct().count();
-			
-			
-			if (uniqueAvatars <= totalAvatars - numAvatars + 1) {
-				return true;
-			}
 			refreshes++;
 			driver.navigate().refresh();
-		} while (refreshes < maxTries);		
-		return false;
+		} while (refreshes < maxTries && !hasNumDuplicateAvatars(numAvatars));		
+		return refreshes;
+	}
+	
+	public Boolean hasNumDuplicateAvatars(int numAvatars) {
+		int totalAvatars = avatarImages.size();
+		long uniqueAvatars = avatarImages.stream().map(e->e.getDomAttribute("src")).distinct().count();
+		return uniqueAvatars <= totalAvatars - numAvatars + 1;
 	}
 }
