@@ -1,7 +1,9 @@
 package andrewSkye.tests;
 
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import andrewSkye.baseObjects.BaseTest;
 import andrewSkye.humanBenchmark.HBMainPage;
@@ -25,6 +27,7 @@ public class HumanBenchmarkTests extends BaseTest {
 	@Test
 	public void testSingleReactionGame() {
 		ReactionTimePage reactionTime = mainPage.goToReactionTime();
+		SoftAssert softAssert = new SoftAssert();
 		int currentTurn = 0;
 		int result;
 		do {
@@ -46,7 +49,7 @@ public class HumanBenchmarkTests extends BaseTest {
 	public void testTypingGame() {
 		TypingPage typing = mainPage.goToTyping();
 		int result = typing.typeTest();
-		softAssert.assertTrue(result > 0, "Reaction time displayed as " + result);
+		Assert.assertTrue(result > 0, "Reaction time displayed as " + result);
 	}
 
 }

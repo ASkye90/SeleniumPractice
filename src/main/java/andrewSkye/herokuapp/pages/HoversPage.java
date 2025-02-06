@@ -27,6 +27,11 @@ public class HoversPage extends BasePage {
 		userToFigure = mapAllUsers();
 	}
 	
+	/*
+	 * Hovers over each figure on the page and then maps their corresponding user name to them.
+	 * 
+	 * @return HashMap mapping String user name to WebElement figure.
+	 */
 	private HashMap<String,WebElement> mapAllUsers() {
 		HashMap<String,WebElement> newUserToImage = new HashMap<String,WebElement>();
 		for (WebElement figure:figures) {
@@ -37,10 +42,19 @@ public class HoversPage extends BasePage {
 		return newUserToImage;
 	}
 	
+	/*
+	 * @return	List of all users visible when hovering over images on the page.
+	 */
 	public List<String> getAllUserNames() {
 		return userToFigure.keySet().stream().collect(Collectors.toList());
 	}
 
+	/*
+	 * Switches to profile page of given user.
+	 * 
+	 * @param	user	Given user.
+	 * @return	HoversProfilePage	New profile page sharing same driver.
+	 */
 	public HoversProfilePage goToProfile(String user) {
 		
 		WebElement figure = userToFigure.get(user);

@@ -5,8 +5,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
+
 import andrewSkye.baseObjects.BaseTest;
 import andrewSkye.herokuapp.pages.ABTestingPage;
 import andrewSkye.herokuapp.pages.DynamicContentPage;
@@ -31,6 +34,7 @@ public class HerokuappTests extends BaseTest {
 	 */
 	@Test
 	public void testABPage() {
+		SoftAssert softAssert = new SoftAssert();
 		String expectedHeader = "A/B Test";
 		String expectedTitle = "The Internet";
 
@@ -53,8 +57,19 @@ public class HerokuappTests extends BaseTest {
 		DynamicContentPage dynamicPage = mainPage.goToDynamicContentPage();
 
 		boolean foundDuplicates = dynamicPage.refreshUntilDuplicateAvatars(3, 50);
-		softAssert.assertTrue(foundDuplicates, "Unable to find page with 3 repeated Avatars within 50 refreshes. ");
-		softAssert.assertAll();
+		Assert.assertTrue(foundDuplicates, "Unable to find page with 3 repeated Avatars within 50 refreshes. ");
+	}
+	
+	/*
+	 * Failure test
+	 * Checks an impossible scenario that is expected to report a test failure every time.
+	 */
+	@Test
+	public void testDynamicPageFailure() {
+		DynamicContentPage dynamicPage = mainPage.goToDynamicContentPage();
+
+		boolean foundDuplicates = dynamicPage.refreshUntilDuplicateAvatars(4, 5);
+		Assert.assertTrue(foundDuplicates, "Unable to find page with 4 repeated Avatars within 5 refreshes. ");
 	}
 	
 	/*
@@ -72,7 +87,6 @@ public class HerokuappTests extends BaseTest {
 		HoversProfilePage profilePage = hoversPage.goToProfile(user);
 		String profileUrl = profilePage.getUrl();
 		
-		softAssert.assertEquals(user.charAt(user.length()-1),profileUrl.charAt(profileUrl.length()-1));
-		softAssert.assertAll();
+		Assert.assertEquals(user.charAt(user.length()-1),profileUrl.charAt(profileUrl.length()-1));
 	}
 }
