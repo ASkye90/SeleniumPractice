@@ -79,23 +79,23 @@ public class HerokuappTests extends BaseTest {
 	 * Failure test Checks an impossible scenario that is expected to report a test
 	 * failure every time.
 	 */
-	@Test
-	public void testDynamicPageFailure(ITestContext context) {
-		ExtentTest extentTest = createExtentTest("Dynamic Content Page Failure",
-				"Checks if user can find a page with 4 duplicated avatars within 5 refreshes (impossible condition).",
-				context);
-
-		extentTest.log(Status.INFO, "Clicking into Dynamic Content Page");
-		DynamicContentPage dynamicPage = mainPage.goToDynamicContentPage();
-
-		extentTest.log(Status.INFO, "Refreshing page up to 5 times");
-		int numRefreshes = dynamicPage.refreshUntilDuplicateAvatars(4, 5);
-		extentTest.log(Status.INFO, "Refreshed page " + numRefreshes + " times");
-
-		extentTest.log(Status.INFO, "Checking if impossible condition somehow occurred");
-		Assert.assertTrue(dynamicPage.hasNumDuplicateAvatars(4),
-				"Unable to find page with 4 repeated Avatars within 5 refreshes.");
-	}
+//	@Test
+//	public void testDynamicPageFailure(ITestContext context) {
+//		ExtentTest extentTest = createExtentTest("Dynamic Content Page Failure",
+//				"Checks if user can find a page with 4 duplicated avatars within 5 refreshes (impossible condition).",
+//				context);
+//
+//		extentTest.log(Status.INFO, "Clicking into Dynamic Content Page");
+//		DynamicContentPage dynamicPage = mainPage.goToDynamicContentPage();
+//
+//		extentTest.log(Status.INFO, "Refreshing page up to 5 times");
+//		int numRefreshes = dynamicPage.refreshUntilDuplicateAvatars(4, 5);
+//		extentTest.log(Status.INFO, "Refreshed page " + numRefreshes + " times");
+//
+//		extentTest.log(Status.INFO, "Checking if impossible condition somehow occurred");
+//		Assert.assertTrue(dynamicPage.hasNumDuplicateAvatars(4),
+//				"Unable to find page with 4 repeated Avatars within 5 refreshes.");
+//	}
 
 	/*
 	 * Clicks into a random user profile. Checks if user profile matches with the
