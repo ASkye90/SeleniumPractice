@@ -15,12 +15,13 @@ import andrewSkye.humanBenchmark.TypingPage;
 
 public class HumanBenchmarkTests extends BaseTest {
 
-	private HBMainPage mainPage;
+	private String url = "https://humanbenchmark.com/";
 
-	@BeforeMethod
-	public void goToMain() {
-		mainPage = new HBMainPage(driver);
-		mainPage.goToMainPage();
+	private HBMainPage goToMainPage() {
+		if (driver.getCurrentUrl() != url) {
+			driver.get(url);
+		}
+		return new HBMainPage(driver);
 	}
 
 	/*
@@ -29,6 +30,7 @@ public class HumanBenchmarkTests extends BaseTest {
 	 */
 	@Test
 	public void testSingleReactionGame(ITestContext context) {
+		HBMainPage mainPage = goToMainPage();
 		ExtentTest extentTest = createExtentTest("Reaction Game",
 				"Runs a full 5 round reaction game and checks all reported times are above 0.", context);
 
@@ -61,17 +63,18 @@ public class HumanBenchmarkTests extends BaseTest {
 	 */
 	@Test
 	public void testTypingGame(ITestContext context) {
+		HBMainPage mainPage = goToMainPage();
 		ExtentTest extentTest = createExtentTest("Typing Game",
 				"Runs one typing round and checks the reported wpm is above 0.", context);
 
 		extentTest.log(Status.INFO, "Clicking into Typing Game");
-		TypingPage typing = mainPage.goToTyping();
+		TypingPage typingPage = mainPage.goToTyping();
 
 		extentTest.log(Status.INFO, "Collecting paragraph into String");
-		typing.parseFullParagraph();
+		typingPage.parseFullParagraph();
 
 		extentTest.log(Status.INFO, "Typing full paragraph");
-		int result = typing.typeTest();
+		int result = typingPage.typeTest();
 		extentTest.log(Status.INFO, "Finished typing paragraph at " + result + "wpm");
 
 		Assert.assertTrue(result > 0, "Typing time displayed as below 0, " + result + "wpm");

@@ -2,6 +2,7 @@ package andrewSkye.baseObjects;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Properties;
 
 import org.openqa.selenium.WebDriver;
@@ -66,7 +67,8 @@ public class BaseTest {
 	 * Close the WebDriver and generate the report.
 	 */
 	@AfterTest
-	public void afterTest() {
+	public void afterTest() throws InterruptedException {
+		Thread.sleep(5000);
 		driver.close();
 		reporter.flush();
 	}

@@ -1,4 +1,4 @@
-package andrewSkye.herokuapp.pages;
+package andrewSkye.herokuapp;
 
 import java.util.List;
 

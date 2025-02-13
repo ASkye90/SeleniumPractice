@@ -1,4 +1,4 @@
-package andrewSkye.herokuapp.pages;
+package andrewSkye.herokuapp;
 
 import java.time.Duration;
 import java.util.HashMap;
