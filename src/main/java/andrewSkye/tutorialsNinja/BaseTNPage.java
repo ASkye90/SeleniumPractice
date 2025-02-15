@@ -1,6 +1,5 @@
 package andrewSkye.tutorialsNinja;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -48,9 +47,9 @@ public class BaseTNPage extends BasePage {
 	/*
 	 * Opens up the product catalog for supplied main category from menu.
 	 */
-	public ProductListPage goToProducts(String mainCategory) {
+	public ProductListPage goToCategory(String category) {
 		List<WebElement> menuCategories = header.menu.findElements(By.cssSelector(".nav>li"));
-		WebElement categoryItem = menuCategories.stream().filter(e->e.getText().equals(mainCategory)).findFirst().get();
+		WebElement categoryItem = menuCategories.stream().filter(e->e.getText().equals(category)).findFirst().get();
 		String classAttr = categoryItem.getDomAttribute("class");
 		if (classAttr != null && classAttr.contains("dropdown")) {
 			categoryItem.click();
@@ -61,7 +60,7 @@ public class BaseTNPage extends BasePage {
 		return new ProductListPage(driver);
 	}
 
-	public List<String> getAllMainProductCategories() {
+	public List<String> getAllMenuCategories() {
 		List<WebElement> menuCategories = header.menu.findElements(By.cssSelector(".nav>li"));
 		return menuCategories.stream().map(WebElement::getText).toList();
 	}

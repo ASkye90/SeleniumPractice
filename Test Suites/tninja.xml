@@ -12,9 +12,6 @@
 	<test thread-count="5" name="Tutorials Ninja Test">
 		<classes>
 			<class name="andrewSkye.tests.TutorialsNinjaTests">
-				<methods>
-					<include name="standAlone" />
-				</methods>
 			</class>
 		</classes>
 	</test>
