@@ -22,16 +22,15 @@ public class ProductPage extends BaseTNPage {
 
 	@FindBy(css = "#product>.form-group")
 	private List<WebElement> availableOptions;
-	
-	@FindBy(id="button-cart")
+
+	@FindBy(id = "button-cart")
 	private WebElement addToCart;
-	
-	@FindBy(className="alert-success")
+
+	@FindBy(className = "alert-success")
 	private WebElement successMessage;
-	
-	@FindBy(className="text-danger")
-	private List<WebElement> errorMessages;	
-	
+
+	@FindBy(className = "text-danger")
+	private List<WebElement> errorMessages;
 
 	private WebDriverWait wait;
 
@@ -45,6 +44,16 @@ public class ProductPage extends BaseTNPage {
 		FileInputStream fis = new FileInputStream(System.getProperty("user.dir")
 				+ "//src//main//java//andrewSkye//tutorialsNinja//TutorialsNinjaDefaultOptions.properties");
 		properties.load(fis);
+
+		WebElement textField;
+		String desiredDate = properties.getProperty("date");
+		if (options.containsKey("date")) {
+			desiredDate = options.get("date");
+		}
+		String desiredTime = properties.getProperty("time");
+		if (options.containsKey("time")) {
+			desiredTime = options.get("time");
+		}
 
 		// Iterate through all available options displayed on page
 		for (WebElement option : availableOptions) {
@@ -79,14 +88,17 @@ public class ProductPage extends BaseTNPage {
 						}
 					}
 					break;
-
+				case "delivery date":
+					desiredOption = desiredDate;
+				case "date & time":
+					desiredOption = desiredDate + " " + desiredTime;
 				case "text":
 				case "date":
 				case "time":
 				case "qty":
-					WebElement textBox = option.findElement(By.tagName("input"));
-					textBox.clear();
-					textBox.sendKeys(desiredOption);
+					textField = option.findElement(By.tagName("input"));
+					textField.clear();
+					textField.sendKeys(desiredOption);
 					break;
 				case "select":
 					Select select = new Select(option.findElement(By.tagName("select")));
@@ -127,34 +139,21 @@ public class ProductPage extends BaseTNPage {
 					// ((JavascriptExecutor) driver).executeScript("delete
 					// HTMLInputElement.prototype.click");
 					break;
-
-				case "date & time":
-					String desiredDate = properties.getProperty("date");
-					if (options.containsKey("date")) {
-						desiredDate = options.get("date");
-					}
-					String desiredTime = properties.getProperty("time");
-					if (options.containsKey("time")) {
-						desiredTime = options.get("time");
-					}
-
-					WebElement textField = option.findElement(By.tagName("input"));
-					textField.clear();
-					textField.sendKeys(desiredDate + " " + desiredTime);
-					break;
 			}
 		}
+		driver.findElement(By.cssSelector("#content h1")).click();
 	}
 
 	public String clickAddToCart() {
 		addToCart.click();
-		String message = "Failed to clicked the cart button";
-		wait.until(ExpectedConditions.or(ExpectedConditions.visibilityOf(successMessage),ExpectedConditions.visibilityOfAllElements(errorMessages)));
+		String message = "Failed to click the add to cart button";
+		wait.until(ExpectedConditions.or(ExpectedConditions.visibilityOf(successMessage),
+				ExpectedConditions.visibilityOfAllElements(errorMessages)));
 		if (successMessage != null && successMessage.isDisplayed()) {
 			message = successMessage.getText();
 		} else if (errorMessages != null) {
 			message = "";
-			for (WebElement error: errorMessages) {
+			for (WebElement error : errorMessages) {
 				message.concat(error.getText() + "\n");
 			}
 		}

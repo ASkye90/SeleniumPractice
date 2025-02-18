@@ -60,6 +60,11 @@ public class BaseTNPage extends BasePage {
 		return new ProductListPage(driver);
 	}
 
+	public CartPage goToCart() {
+		header.shoppingCart.click();
+		return new CartPage(driver);
+	}
+	
 	public List<String> getAllMenuCategories() {
 		List<WebElement> menuCategories = header.menu.findElements(By.cssSelector(".nav>li"));
 		return menuCategories.stream().map(WebElement::getText).toList();

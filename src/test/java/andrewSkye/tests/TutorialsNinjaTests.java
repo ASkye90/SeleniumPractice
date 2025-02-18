@@ -1,29 +1,19 @@
 package andrewSkye.tests;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Properties;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.ITestContext;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
-
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 
 import andrewSkye.baseObjects.BaseTest;
 import andrewSkye.tutorialsNinja.BaseTNPage;
+import andrewSkye.tutorialsNinja.CartPage;
+import andrewSkye.tutorialsNinja.CheckoutPage;
 import andrewSkye.tutorialsNinja.ProductListPage;
 import andrewSkye.tutorialsNinja.ProductPage;
 import andrewSkye.tutorialsNinja.TNMainPage;
@@ -56,32 +46,28 @@ public class TutorialsNinjaTests extends BaseTest {
 	}
 
 	@Test(dependsOnMethods = "login")
-	public void doSomething(ITestContext context) {
-		TNMainPage mainPage = goToMain();
-		ExtentTest extentTest = createExtentTest("Sommething", "Does something after login", context);
-		extentTest.log(Status.WARNING, "We did it!");
-		extentTest.log(Status.INFO, mainPage.getUrl());
+	public void addProductToCart(ITestContext context) throws IOException {
+		String product = "Apple Cinema 30\"";
+		ExtentTest extentTest = createExtentTest("Add Product to Cart: " + product,
+				"Adds a specific hard-coded (for now) product to cart.", context);
+		extentTest.log(Status.INFO, "Collecting category names");
+		addProductToCart(product, context, extentTest);
 	}
 
-	@Test
-	public void addProductToCart(ITestContext context) throws IOException {
+	private ProductPage addProductToCart(String product, ITestContext context, ExtentTest extentTest)
+			throws IOException {
 		TNMainPage mainPage = goToMain();
-		ExtentTest extentTest = createExtentTest("Add Product to Cart", "Adds a specific hard-coded (for now) product to cart.", context);
-		extentTest.log(Status.INFO, "Collecting category names");
-		
-		String product="Apple Cinema 30\"";
-		
 		List<String> categories = mainPage.getAllMenuCategories();
 		BaseTNPage currentPage = mainPage;
-		
+
 		Boolean productFound = false;
 		int index = 0;
 		do {
 			String category = categories.get(index);
 			extentTest.log(Status.INFO, "Going through: " + category);
 			currentPage = currentPage.goToCategory(category);
-			if(((ProductListPage)currentPage).getAllProductNames().contains(product)) {
-				extentTest.log(Status.PASS,"Found " + product + " in " + category);
+			if (((ProductListPage) currentPage).getAllProductNames().contains(product)) {
+				extentTest.log(Status.PASS, "Found " + product + " in " + category);
 				productFound = true;
 				break;
 			} else {
@@ -92,18 +78,52 @@ public class TutorialsNinjaTests extends BaseTest {
 		if (!productFound) {
 			Assert.fail(product + " not found in any categories.");
 		}
-		ProductListPage productListPage = (ProductListPage)currentPage;
+		ProductListPage productListPage = (ProductListPage) currentPage;
 		ProductPage productPage = productListPage.goToProduct(product);
 		extentTest.log(Status.INFO, "Opened " + product + " product page.");
-		extentTest.log(Status.INFO,"Entering available options");
-		productPage.enterOptions(new HashMap<String,String>());
+		extentTest.log(Status.INFO, "Entering available options");
+		productPage.enterOptions(new HashMap<String, String>());
 		extentTest.log(Status.INFO, "Adding to Cart");
 		String addToCartLog = productPage.clickAddToCart();
 		if (addToCartLog.contains("Success")) {
 			extentTest.log(Status.PASS, addToCartLog);
 		} else {
-			extentTest.log(Status.FAIL, addToCartLog);
+			Assert.fail(addToCartLog);
 		}
+		return productPage;
 	}
 
+	@Test(dependsOnMethods = "login")
+	public void checkoutProduct(ITestContext context) throws IOException {
+		String product = "HP LP3065";
+		ExtentTest extentTest = createExtentTest("Checkout Product: " + product,
+				"Checksout with a specific hard-coded (for now) product.", context);
+		extentTest.log(Status.INFO, "Collecting category names");
+		ProductPage productPage = addProductToCart(product, context, extentTest);
+		checkoutProduct(product, productPage, context, extentTest);
+	}
+
+	private void checkoutProduct(String product, ProductPage productPage, ITestContext context, ExtentTest extentTest) {
+		CartPage cartPage = productPage.goToCart();
+		extentTest.log(Status.INFO, cartPage.getProductsByName().toString());
+
+		if (cartPage.hasWarning()) {
+			List<String> productsWithWarning = cartPage.getProductsWithWarning();
+			if (productsWithWarning.contains(product)) {
+				extentTest.log(Status.WARNING, cartPage.getWarning());
+				Assert.fail(product + "cannot be purchased due to warning.");
+			} else {
+				for (String pww : productsWithWarning) {
+					cartPage.removeProduct(pww);
+				}
+			}
+		}
+
+		CheckoutPage checkoutPage = cartPage.goToCheckout();
+		checkoutPage.fillBillingDetails();
+		checkoutPage.fillDeliveryDetails();
+		checkoutPage.fillDeliveryMethod();
+		checkoutPage.fillPaymentMethod();
+		checkoutPage.confirmOrder();
+	}
 }
