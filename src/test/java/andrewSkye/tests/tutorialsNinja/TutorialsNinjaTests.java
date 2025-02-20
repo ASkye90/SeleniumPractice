@@ -59,7 +59,7 @@ public class TutorialsNinjaTests extends BaseTest {
 	@Test
 	public void login(String email, String password, ITestContext context) {
 		TNMainPage mainPage = goToMain();
-		ExtentTest extentTest = createExtentTest("Login", "Logs into the website", context);
+		ExtentTest extentTest = createExtentTest("TN - Login", "Logs into the website", context);
 		extentTest.log(Status.INFO, "Logging in");
 
 		AccountPage accountPage;
@@ -81,16 +81,34 @@ public class TutorialsNinjaTests extends BaseTest {
 	 * 
 	 * @param context Test context that is currently running
 	 */
-	@Test(dependsOnMethods = "login", dataProvider="getProductsToAdd")
+	@Test(dependsOnMethods = "login", dataProvider = "getProductsToAdd")
 	public void addProductToCart(HashMap<String, String> productInfo, ITestContext context) {
 		String product = productInfo.get("product");
-		ExtentTest extentTest = createExtentTest("Add Product to Cart: " + product,
-				"Adds a product to the cart.", context);
+		ExtentTest extentTest = createExtentTest("TN - Add Product to Cart", "Adds a product to the cart.",
+				context);
 		addProductToCart(productInfo, extentTest);
 	}
 
 	/**
-	 * Adds a product to the cart.
+	 * Test checking out with a product.
+	 * 
+	 * Checks if an order can be successfully placed with the product in the
+	 * shopping cart.
+	 * 
+	 * @param context Test context that is currently running
+	 */
+	@Test(dependsOnMethods = "login", dataProvider = "getProductsToCheckout")
+	public void checkoutProduct(HashMap<String, String> productInfo, ITestContext context) {
+		String product = productInfo.get("product");
+		ExtentTest extentTest = createExtentTest("TN - Checkout Product: " + product, "Checksout with a specific product.",
+				context);
+		ProductPage productPage = addProductToCart(productInfo, extentTest);
+		ConfirmationPage confirmationPage = checkoutProduct(productPage, product, extentTest);
+		softAssert.assertEquals(confirmationPage.getConfirmationHeader(), "Your order has been placed!");
+	}
+
+	/**
+	 * Function to add a product to the cart.
 	 * 
 	 * @param product    Name of product to add
 	 * @param extentTest ExtentTest instance for currently running test
@@ -104,18 +122,17 @@ public class TutorialsNinjaTests extends BaseTest {
 		List<String> categories = mainPage.getAllMenuCategories();
 		BaseTNPage currentPage = mainPage;
 
+
+		extentTest.log(Status.INFO, "Searching for " + product + " in each category.");
 		Boolean productFound = false;
 		int index = 0;
 		do {
 			String category = categories.get(index);
-			extentTest.log(Status.INFO, "Going through: " + category);
 			currentPage = currentPage.goToCategory(category);
 			if (((ProductListPage) currentPage).getAllProductNames().contains(product)) {
 				extentTest.log(Status.PASS, "Found " + product + " in " + category);
 				productFound = true;
 				break;
-			} else {
-				extentTest.log(Status.INFO, product + " not in " + category);
 			}
 			index++;
 		} while (!productFound && index < categories.size());
@@ -138,25 +155,7 @@ public class TutorialsNinjaTests extends BaseTest {
 	}
 
 	/**
-	 * Test checking out with a product.
-	 * 
-	 * Checks if an order can be successfully placed with the product in the
-	 * shopping cart.
-	 * 
-	 * @param context Test context that is currently running
-	 */
-	@Test(dependsOnMethods = "login", dataProvider="getProductsToCheckout")
-	public void checkoutProduct(HashMap<String, String> productInfo, ITestContext context) {
-		String product = productInfo.get("product");
-		ExtentTest extentTest = createExtentTest("Checkout Product: " + product,
-				"Checksout with a specific product.", context);
-		ProductPage productPage = addProductToCart(productInfo, extentTest);
-		ConfirmationPage confirmationPage = checkoutProduct(productPage, product, extentTest);
-		softAssert.assertEquals(confirmationPage.getConfirmationHeader(), "Your order has been placed!");
-	}
-
-	/**
-	 * Checkout with a given product.
+	 * Function to checkout with a given product.
 	 * 
 	 * @param currentPage Current page the driver is on
 	 * @param product     Name of product
@@ -194,8 +193,8 @@ public class TutorialsNinjaTests extends BaseTest {
 		ConfirmationPage confirmationPage = checkoutPage.confirmOrder();
 		extentTest.log(Status.INFO, "Confirmed order");
 		return confirmationPage;
-	}	
-	
+	}
+
 	/**
 	 * Data Provider for addProductsToCart test.
 	 * 
@@ -219,8 +218,8 @@ public class TutorialsNinjaTests extends BaseTest {
 	}
 
 	/**
-	 * Convert JSON file to a DataProvider appropriate Object[][] holding a HashMap
-	 * at each index.
+	 * Function to convert JSON file to a DataProvider appropriate Object[][]
+	 * holding a HashMap at each index.
 	 * 
 	 * @param relativeFilePath File path to JSON relative to project root directory
 	 * @return HashMap at each index containing specific product name and options

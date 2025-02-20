@@ -28,7 +28,7 @@ public class BaseTest {
 
 	public WebDriver driver;
 	protected SoftAssert softAssert;
-	protected static ExtentReports reporter = ExtentReporter.getReportObject();
+	private static ExtentReports reporter = ExtentReporter.getReportObject();
 
 	/**
 	 * Run before any test begins, starting a new WebDriver instance and attaching
@@ -67,6 +67,7 @@ public class BaseTest {
 
 		driver.manage().window().maximize();
 		softAssert = new SoftAssert();
+		reporter.setSystemInfo("browser", browser);
 		context.setAttribute("reporter", reporter);
 	}
 

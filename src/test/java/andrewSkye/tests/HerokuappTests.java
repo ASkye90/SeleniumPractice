@@ -49,7 +49,7 @@ public class HerokuappTests extends BaseTest {
 		HerokuappMainPage mainPage = goToMainPage();
 		String expectedHeader = "A/B Test";
 		String expectedTitle = "The Internet";
-		ExtentTest extentTest = createExtentTest("AB Page",
+		ExtentTest extentTest = createExtentTest("Hrku - AB Page",
 				"Checks the page title is " + expectedTitle + " and page header contains " + expectedHeader + ".",
 				context);
 
@@ -77,7 +77,7 @@ public class HerokuappTests extends BaseTest {
 		HerokuappMainPage mainPage = goToMainPage();
 		int numDuplicates = 3;
 		int maxRefreshes = 50;
-		ExtentTest extentTest = createExtentTest("Dynamic Content Page", "Checks if user can find a page with "
+		ExtentTest extentTest = createExtentTest("Hrku - Dynamic Content Page", "Checks if user can find a page with "
 				+ numDuplicates + " duplicated avatars within " + maxRefreshes + " refreshes.", context);
 
 		extentTest.log(Status.INFO, "Clicking into Dynamic Content Page");
@@ -101,7 +101,7 @@ public class HerokuappTests extends BaseTest {
 	@Test
 	public void testHoversPage(ITestContext context) {
 		HerokuappMainPage mainPage = goToMainPage();
-		ExtentTest extentTest = createExtentTest("Hovers Page",
+		ExtentTest extentTest = createExtentTest("Hrku - Hovers Page",
 				"Clicks into a random user profile and checks if it loads the correct profile.", context);
 
 		extentTest.log(Status.INFO, "Clicking into Hovers Page");

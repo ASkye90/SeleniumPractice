@@ -2,6 +2,9 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite parallel="tests" name="Selenium Tests">
 
+	<parameter name="email" value="user@user.user" />
+	<parameter name="pass" value="hello" />
+	
 	<listeners>
 		<listener class-name="andrewSkye.resources.TestNGListener" />
 	</listeners>
