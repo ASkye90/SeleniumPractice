@@ -11,7 +11,7 @@
 
 	<test thread-count="5" name="Tutorials Ninja Test">
 		<classes>
-			<class name="andrewSkye.tests.TutorialsNinjaTests" />
+			<class name="andrewSkye.tests.tutorialsNinja.TutorialsNinjaTests" />
 		</classes>
 	</test>
 

@@ -165,6 +165,8 @@ public class ProductPage extends BaseTNPage {
 					break;
 			}
 		}
+		
+		//Forcing page to update with all entered options by clicking into it.
 		driver.findElement(By.cssSelector("#content h1")).click();
 	}
 

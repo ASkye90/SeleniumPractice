@@ -20,9 +20,6 @@ public class ShoppingCartPage extends BaseTNPage {
 	@FindBy(css = ".table-responsive tbody tr")
 	private List<WebElement> productList;
 
-	@FindBy(className = "alert-danger")
-	private WebElement warning;
-
 	private WebDriverWait wait;
 
 	/**
@@ -38,7 +35,7 @@ public class ShoppingCartPage extends BaseTNPage {
 	/**
 	 * Get the name of all products in the shopping cart.
 	 * 
-	 * @return	Names of all products in shopping cart
+	 * @return Names of all products in shopping cart
 	 */
 	public List<String> getProductsByName() {
 		return productList.stream().map(e -> e.findElement(By.cssSelector("td.text-left>a")).getText()).toList();
@@ -47,10 +44,11 @@ public class ShoppingCartPage extends BaseTNPage {
 	/**
 	 * Check if there are any warnings displayed
 	 * 
-	 * @return	True if there are any warnings
+	 * @return True if there are any warnings
 	 */
 	public Boolean hasWarning() {
-		if (warning != null) {
+		List<WebElement> warnings = driver.findElements(By.className("alert-danger"));
+		if (warnings.size() > 0) {
 			return true;
 		}
 		return false;
@@ -59,11 +57,11 @@ public class ShoppingCartPage extends BaseTNPage {
 	/**
 	 * Get the warning text displayed
 	 * 
-	 * @return	Warning text or "N/A" if none found
+	 * @return Warning text or "N/A" if none found
 	 */
 	public String getWarning() {
 		if (hasWarning()) {
-			return warning.getText();
+			return driver.findElement(By.className("alert-danger")).getText();
 		}
 		return "N/A";
 	}
@@ -71,18 +69,27 @@ public class ShoppingCartPage extends BaseTNPage {
 	/**
 	 * Get the name of all products that have a warning associated with them.
 	 * 
-	 * @return	Name of all products with a warning
+	 * @return Name of all products with a warning
 	 */
 	public List<String> getProductsWithWarning() {
-		return productList.stream()
+		// Start with all products annotated with ***
+		List<String> productsWithWarning = productList.stream()
 				.filter(e -> e.findElements(By.cssSelector("td.text-left>span.text-danger")).size() > 0)
 				.map(e -> e.findElement(By.cssSelector("td.text-left>a")).getText()).toList();
+
+		// Add in products with minimum quantity warning
+		// ie Minimum order amount for Apple Cinema 30" is 2!
+		String warning = getWarning();
+		if (warning.contains("Minimum order")) {
+			productsWithWarning.add(warning.split("for")[1].split("is")[0].trim());
+		}
+		return productsWithWarning;
 	}
 
 	/**
 	 * Remove all instances of products with a given name from shopping cart
 	 * 
-	 * @param productName	Name of product to remove
+	 * @param productName Name of product to remove
 	 */
 	public void removeProduct(String productName) {
 		for (WebElement product : productList) {
@@ -98,7 +105,7 @@ public class ShoppingCartPage extends BaseTNPage {
 	/**
 	 * Navigate to the Checkout Page.
 	 * 
-	 * @return	The Checkout Page
+	 * @return The Checkout Page
 	 */
 	public CheckoutPage goToCheckout() {
 		header.checkout.click();
