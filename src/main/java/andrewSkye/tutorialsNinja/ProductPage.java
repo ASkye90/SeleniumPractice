@@ -18,6 +18,11 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+/**
+ * The Product Page in Tutorials Ninja Demo website.
+ * 
+ * @author Andrew Skye
+ */
 public class ProductPage extends BaseTNPage {
 
 	@FindBy(css = "#product>.form-group")
@@ -34,17 +39,37 @@ public class ProductPage extends BaseTNPage {
 
 	private WebDriverWait wait;
 
+	/**
+	 * Creates a Product Page
+	 * 
+	 * @param driver WebDriver instance shared between pages within a test.
+	 */
 	public ProductPage(WebDriver driver) {
 		super(driver);
 		wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 	}
 
-	public void enterOptions(HashMap<String, String> options) throws IOException {
+	/**
+	 * Enter all options into Available Options category on page. Uses
+	 * TutorialsNinjaDefaultOption.properties if no option is supplied.
+	 * 
+	 * @param options Maps names of options to desired values for entry.
+	 * @throws IOException Default properties file couldn't be retrieved.
+	 */
+	public void enterOptions(HashMap<String, String> options) {
 		Properties properties = new Properties();
-		FileInputStream fis = new FileInputStream(System.getProperty("user.dir")
-				+ "//src//main//java//andrewSkye//tutorialsNinja//TutorialsNinjaDefaultOptions.properties");
-		properties.load(fis);
+		FileInputStream fis;
+		try {
+			fis = new FileInputStream(System.getProperty("user.dir")
+					+ "//src//main//java//andrewSkye//tutorialsNinja//TutorialsNinjaDefaultOptions.properties");
+			properties.load(fis);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
+		// Setting up separate date/time variables due to website holding various
+		// date/time option names
 		WebElement textField;
 		String desiredDate = properties.getProperty("date");
 		if (options.containsKey("date")) {
@@ -116,8 +141,8 @@ public class ProductPage extends BaseTNPage {
 				case "file":
 					String absolutePath = System.getProperty("user.dir") + desiredOption;
 
-					// Disable the click functions to stop non-interactable explorer from popping
-					// up.
+//					 Disable the click functions to stop non-interactable file explorer from
+//					 popping up.
 					((JavascriptExecutor) driver).executeScript("HTMLInputElement.prototype.click = function(){}");
 					option.findElement(By.tagName("button")).click();
 
@@ -132,18 +157,22 @@ public class ProductPage extends BaseTNPage {
 					Alert alert = driver.switchTo().alert();
 					alert.accept();
 
-					// Code to re-hide file input and re-enable click functionality in case we need
-					// it later.
-					// ((JavascriptExecutor)
-					// driver).executeScript("document.querySelector('form#form-upload').style.display='none'");
-					// ((JavascriptExecutor) driver).executeScript("delete
-					// HTMLInputElement.prototype.click");
+//					 Code to re-hide html file input and restore click functionality in case we
+//					 need this later.
+//					((JavascriptExecutor) driver)
+//							.executeScript("document.querySelector('form#form-upload').style.display='none'");
+//					((JavascriptExecutor) driver).executeScript("delete HTMLInputElement.prototype.click");
 					break;
 			}
 		}
 		driver.findElement(By.cssSelector("#content h1")).click();
 	}
 
+	/**
+	 * Clicks the Add to Cart button
+	 * 
+	 * @return	Any success, failure or warnings shown after clicking the button.
+	 */
 	public String clickAddToCart() {
 		addToCart.click();
 		String message = "Failed to click the add to cart button";

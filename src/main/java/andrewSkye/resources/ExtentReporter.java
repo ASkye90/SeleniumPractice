@@ -6,8 +6,18 @@ import java.time.LocalTime;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 
+/**
+ * Class to generate an Extent Report
+ * 
+ * @author Andrew Skye
+ */
 public class ExtentReporter {
 
+	/**
+	 * Get a newly generated Extent Report
+	 * 
+	 * @return	The Extent Report
+	 */
 	public static ExtentReports getReportObject() {
 		LocalDate today = LocalDate.now();
 		LocalTime time = LocalTime.now();

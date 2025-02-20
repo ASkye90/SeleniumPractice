@@ -2,7 +2,6 @@ package andrewSkye.tests;
 
 import org.testng.Assert;
 import org.testng.ITestContext;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.aventstack.extentreports.ExtentTest;
@@ -13,10 +12,20 @@ import andrewSkye.humanBenchmark.HBMainPage;
 import andrewSkye.humanBenchmark.ReactionTimePage;
 import andrewSkye.humanBenchmark.TypingPage;
 
+/**
+ * Tests for Human Benchmark website.
+ * 
+ * @author Andrew Skye
+ */
 public class HumanBenchmarkTests extends BaseTest {
 
 	private String url = "https://humanbenchmark.com/";
 
+	/**
+	 * Load into the Main Page.
+	 * 
+	 * @return	The Main Page
+	 */
 	private HBMainPage goToMainPage() {
 		if (driver.getCurrentUrl() != url) {
 			driver.get(url);
@@ -24,9 +33,11 @@ public class HumanBenchmarkTests extends BaseTest {
 		return new HBMainPage(driver);
 	}
 
-	/*
-	 * Runs a full set of turns. Checks if the individual and end results displayed
-	 * are valid (above 0).
+	/**
+	 * Runs a full set of turns in reaction game. 
+	 * Checks if the individual and end results displayed are valid (above 0).
+	 * 
+	 * @param context 	Test context that is currently running
 	 */
 	@Test
 	public void testSingleReactionGame(ITestContext context) {
@@ -57,9 +68,11 @@ public class HumanBenchmarkTests extends BaseTest {
 		softAssert.assertAll();
 	}
 
-	/*
-	 * Types the full typing test. Checks if the WPM result displayed is valid
-	 * (above 0).
+	/**
+	 * Types the full typing test. 
+	 * Checks if the WPM result displayed is valid (above 0).
+	 * 
+	 * @param context 	Test context that is currently running
 	 */
 	@Test
 	public void testTypingGame(ITestContext context) {

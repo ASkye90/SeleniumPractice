@@ -15,6 +15,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import andrewSkye.baseObjects.BasePage;
 
+/**
+ * The Hovers Page for The-Internet Herokuapp website.
+ * 
+ * @author Andrew Skye
+ */
 public class HoversPage extends BasePage {
 
 	private Actions action;
@@ -24,6 +29,11 @@ public class HoversPage extends BasePage {
 	@FindBy(css = "div.figure")
 	private List<WebElement> figures;
 
+	/**
+	 * Creates a Hovers Page.
+	 * 
+	 * @param driver WebDriver instance shared between pages within a test.
+	 */
 	public HoversPage(WebDriver driver) {
 		super(driver);
 		action = new Actions(driver);
@@ -31,7 +41,7 @@ public class HoversPage extends BasePage {
 		userToFigure = mapAllUsers();
 	}
 
-	/*
+	/**
 	 * Hovers over each figure on the page and then maps their corresponding user
 	 * name to them.
 	 * 
@@ -48,14 +58,16 @@ public class HoversPage extends BasePage {
 		return newUserToImage;
 	}
 
-	/*
+	/**
+	 * Get the name of all users on the page.
+	 * 
 	 * @return List of all users visible when hovering over images on the page.
 	 */
 	public List<String> getAllUserNames() {
 		return userToFigure.keySet().stream().collect(Collectors.toList());
 	}
 
-	/*
+	/**
 	 * Switches to profile page of given user.
 	 * 
 	 * @param user Given user.

@@ -2,7 +2,6 @@ package andrewSkye.baseObjects;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.time.Duration;
 import java.util.Properties;
 
 import org.openqa.selenium.WebDriver;
@@ -20,15 +19,23 @@ import com.aventstack.extentreports.ExtentTest;
 
 import andrewSkye.resources.ExtentReporter;
 
+/**
+ * The Base Test for all Tests to inherit.
+ * 
+ * @author Andrew Skye
+ */
 public class BaseTest {
 
 	public WebDriver driver;
 	protected SoftAssert softAssert;
 	protected static ExtentReports reporter = ExtentReporter.getReportObject();
 
-	/*
-	 * Start a new WebDriver in given browser and attach the ExtentReporter to the
-	 * TestContext.
+	/**
+	 * Run before any test begins, starting a new WebDriver instance and attaching
+	 * the ExtentReporter to the TestContext.
+	 * 
+	 * @param context 	Test context that is currently running
+	 * @throws IOException		Global properties file couldn't be retrieved.
 	 */
 	@BeforeTest
 	public void beforeTest(ITestContext context) throws IOException {
@@ -40,22 +47,22 @@ public class BaseTest {
 		String browser = properties.getProperty("browser");
 
 		switch (browser) {
-		case "chromeheadless":
-			ChromeOptions options = new ChromeOptions();
-			options.addArguments("--headless=new");
-			driver = new ChromeDriver(options);
-			break;
-		case "chrome":
-			driver = new ChromeDriver();
-			break;
-		case "firefox":
-			driver = new FirefoxDriver();
-			break;
-		case "edge":
-			driver = new EdgeDriver();
-			break;
-		default:
-			driver = new ChromeDriver();
+			case "chromeheadless":
+				ChromeOptions options = new ChromeOptions();
+				options.addArguments("--headless=new");
+				driver = new ChromeDriver(options);
+				break;
+			case "chrome":
+				driver = new ChromeDriver();
+				break;
+			case "firefox":
+				driver = new FirefoxDriver();
+				break;
+			case "edge":
+				driver = new EdgeDriver();
+				break;
+			default:
+				driver = new ChromeDriver();
 		}
 
 		driver.manage().window().maximize();
@@ -63,17 +70,26 @@ public class BaseTest {
 		context.setAttribute("reporter", reporter);
 	}
 
-	/*
-	 * Close the WebDriver and generate the report.
+	/**
+	 * Run after any test concludes.
+	 * Close the WebDriver instance and generate a report.
 	 */
 	@AfterTest
-	public void afterTest() throws InterruptedException {
-		Thread.sleep(5000);
+	public void afterTest() {
+		// Sleep for viewing test in progress during development.
+		// Remove or replace with logic to see if test has been manually triggered?
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		driver.close();
 		reporter.flush();
 	}
 
-	/*
+	/**
 	 * Create a Test with a given name and description, then attach it to the
 	 * TestContext.
 	 * 

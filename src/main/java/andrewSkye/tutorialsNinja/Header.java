@@ -6,6 +6,11 @@ import org.openqa.selenium.support.FindBy;
 
 import andrewSkye.baseObjects.BasePage;
 
+/**
+ * The Header in Tutorials Ninja Demo website.
+ * 
+ * @author Andrew Skye
+ */
 public class Header extends BasePage {
 	
 	@FindBy(css="#top-links li:has(a[title='My Account'])")
@@ -32,9 +37,12 @@ public class Header extends BasePage {
 	@FindBy(id="menu")
 	public WebElement menu;
 	
+	/**
+	 * Creates a Header
+	 * 
+	 * @param driver WebDriver instance shared between pages within a test.
+	 */
 	public Header(WebDriver driver) {
 		super(driver);
 	}
-	
-	//$x("//*[@id='menu']//a[text()='Desktops']/following-sibling::div//a[@class='see-all']")
 }

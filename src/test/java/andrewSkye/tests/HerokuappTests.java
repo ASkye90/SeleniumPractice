@@ -5,7 +5,6 @@ import java.util.Random;
 
 import org.testng.Assert;
 import org.testng.ITestContext;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.aventstack.extentreports.ExtentTest;
@@ -19,19 +18,31 @@ import andrewSkye.herokuapp.HoversPage;
 import andrewSkye.herokuapp.HoversProfilePage;
 import andrewSkye.resources.TestNGRetry;
 
+/**
+ * Tests for The-Internet Herokuapp website.
+ * 
+ * @author Andrew Skye
+ */
 public class HerokuappTests extends BaseTest {
 
 	private String url = "https://the-internet.herokuapp.com/";
 
+	/**
+	 * Load into the Main Page.
+	 * 
+	 * @return	The Main Page
+	 */
 	private HerokuappMainPage goToMainPage() {
 		if (driver.getCurrentUrl() != url) {
 			driver.get(url);
 		}
 		return new HerokuappMainPage(driver);
 	}
-	
-	/*
+
+	/**
 	 * Checks if the title and header are correct in AB Testing page
+	 * 
+	 * @param context 	Test context that is currently running
 	 */
 	@Test
 	public void testABPage(ITestContext context) {
@@ -55,8 +66,11 @@ public class HerokuappTests extends BaseTest {
 		softAssert.assertAll();
 	}
 
-	/*
-	 * Flaky test Checks if the page can dynamically load with duplicate elements.
+	/**
+	 * Flaky test 
+	 * Checks if the page can dynamically load with duplicate elements.
+	 * 
+	 * @param context 	Test context that is currently running
 	 */
 	@Test(retryAnalyzer = TestNGRetry.class)
 	public void testDynamicPage(ITestContext context) {
@@ -78,9 +92,11 @@ public class HerokuappTests extends BaseTest {
 				+ " repeated Avatars within " + maxRefreshes + " refreshes. ");
 	}
 
-	/*
-	 * Clicks into a random user profile. Checks if user profile matches with the
-	 * user clicked.
+	/**
+	 * Clicks into a random user profile. 
+	 * Checks if user profile matches with the user clicked.
+	 * 
+	 * @param context 	Test context that is currently running
 	 */
 	@Test
 	public void testHoversPage(ITestContext context) {

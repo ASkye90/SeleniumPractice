@@ -11,6 +11,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import andrewSkye.baseObjects.BasePage;
 
+/**
+ * The Reaction Time Page for the Human Benchmark website.
+ * 
+ * @author Andrew Skye
+ */
 public class ReactionTimePage extends BasePage {
 
 	private WebDriverWait wait;
@@ -46,6 +51,11 @@ public class ReactionTimePage extends BasePage {
 	@FindBy(css = ".css-1qvtbrk h1")
 	private WebElement fullResult;
 
+	/**
+	 * Creates a Reaction Time Page.
+	 * 
+	 * @param driver WebDriver instance shared between pages within a test.
+	 */
 	public ReactionTimePage(WebDriver driver) {
 		super(driver);
 		action = new Actions(driver);
@@ -55,7 +65,7 @@ public class ReactionTimePage extends BasePage {
 		scores = new int[5];
 	}
 
-	/*
+	/**
 	 * Clicks to start a round at any given stage of the reaction test.
 	 */
 	public void clickToStart() {
@@ -73,10 +83,10 @@ public class ReactionTimePage extends BasePage {
 		}
 	}
 
-	/*
+	/**
 	 * Waits until the green click screen is showing and clicks.
 	 * 
-	 * @return Integer value for the current round played.
+	 * @return	Integer value for the current round played.
 	 */
 	public Integer clickOnGreen() {
 		action.moveToElement(playSpace).build().perform();
@@ -88,11 +98,11 @@ public class ReactionTimePage extends BasePage {
 		return score;
 	}
 
-	/*
+	/**
 	 * Gets score value for current round played. Calculates last round's individual
 	 * value based on average given.
 	 * 
-	 * @return Integer value for the current round played.
+	 * @return	Integer value for the current round played.
 	 */
 	private Integer getScore() {
 		if (turn < MAX_TURNS) {
@@ -108,10 +118,10 @@ public class ReactionTimePage extends BasePage {
 		}
 	}
 
-	/*
+	/**
 	 * Gets average score for all rounds played.
 	 * 
-	 * @return Integer value for average score.
+	 * @return	Integer value for average score.
 	 */
 	public Integer getEndResult() {
 		if (turn >= MAX_TURNS) {

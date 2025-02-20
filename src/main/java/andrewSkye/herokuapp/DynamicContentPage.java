@@ -8,16 +8,26 @@ import org.openqa.selenium.support.FindBy;
 
 import andrewSkye.baseObjects.BasePage;
 
+/**
+ * The Dynamic Content Page for The-Internet Herokuapp website.
+ * 
+ * @author Andrew Skye
+ */
 public class DynamicContentPage extends BasePage {
 
 	@FindBy(css = "div#content img")
 	private List<WebElement> avatarImages;
 
+	/**
+	 * Creates a Dynamic Content Page.
+	 * 
+	 * @param driver WebDriver instance shared between pages within a test.
+	 */
 	public DynamicContentPage(WebDriver driver) {
 		super(driver);
 	}
 
-	/*
+	/**
 	 * Tries to find a specific Avatar picture on the page in a given number of page
 	 * refreshes.
 	 * 
@@ -44,7 +54,7 @@ public class DynamicContentPage extends BasePage {
 		return profilePic;
 	}
 
-	/*
+	/**
 	 * Refresh page until landing on one with repeated Avatar pictures.
 	 * 
 	 * @param numAvatars Number of duplicate Avatars to find
@@ -62,7 +72,7 @@ public class DynamicContentPage extends BasePage {
 		return refreshes;
 	}
 
-	/*
+	/**
 	 * Check if the current page has repeated Avatar pictures.
 	 * 
 	 * @param numAvatars Number of duplicate Avatars to check for

@@ -9,6 +9,11 @@ import org.openqa.selenium.support.FindBy;
 
 import andrewSkye.baseObjects.BasePage;
 
+/**
+ * The Typing Page for the Human Benchmark website.
+ * 
+ * @author Andrew Skye
+ */
 public class TypingPage extends BasePage {
 
 	private String paragraph = "";
@@ -28,7 +33,7 @@ public class TypingPage extends BasePage {
 		action = new Actions(driver);
 	}
 
-	/*
+	/**
 	 * Parses the paragraph displayed on-screen into the 'paragraph' String value.
 	 */
 	public void parseFullParagraph() {
@@ -42,10 +47,10 @@ public class TypingPage extends BasePage {
 		}
 	}
 
-	/*
+	/**
 	 * Types the full paragraph into the window.
 	 * 
-	 * @return Integer Words Per Minute given after finishing typing.
+	 * @return	Integer		Words Per Minute given after finishing typing.
 	 */
 	public Integer typeTest() {
 		action.moveToElement(playSpace).click().build().perform();
