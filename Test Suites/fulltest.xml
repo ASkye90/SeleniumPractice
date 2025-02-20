@@ -18,4 +18,9 @@
 		</classes>
 	</test>
 
+	<test thread-count="5" name="Tutorials Ninja Test">
+		<classes>
+			<class name="andrewSkye.tests.tutorialsNinja.TutorialsNinjaTests" />
+		</classes>
+	</test>
 </suite>
