@@ -54,7 +54,6 @@ public class ProductPage extends BaseTNPage {
 	 * TutorialsNinjaDefaultOption.properties if no option is supplied.
 	 * 
 	 * @param options Maps names of options to desired values for entry.
-	 * @throws IOException Default properties file couldn't be retrieved.
 	 */
 	public void enterOptions(HashMap<String, String> options) {
 		Properties properties = new Properties();

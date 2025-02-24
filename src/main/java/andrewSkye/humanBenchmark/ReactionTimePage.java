@@ -22,6 +22,8 @@ public class ReactionTimePage extends BasePage {
 	private Actions action;
 	private int turn;
 	private int[] scores;
+	
+	/** Maximum amount of turns for Reaction game */
 	public static int MAX_TURNS = 5;
 
 	@FindBy(className = "css-42wpoy")

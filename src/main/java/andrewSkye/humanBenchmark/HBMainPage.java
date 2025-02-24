@@ -47,7 +47,7 @@ public class HBMainPage extends BasePage {
 	 * 
 	 * @return The Typing Page.
 	 */
-	public TypingPage goToTyping() {
+	public TypingPage goToTypingPage() {
 		action.scrollToElement(reactionTimeButton).moveToElement(typingButton).click().build().perform();
 		return new TypingPage(driver);
 	}

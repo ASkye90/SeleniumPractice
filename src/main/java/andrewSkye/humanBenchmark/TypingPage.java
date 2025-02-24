@@ -16,7 +16,6 @@ import andrewSkye.baseObjects.BasePage;
  */
 public class TypingPage extends BasePage {
 
-	private String paragraph = "";
 	private Actions action;
 
 	@FindBy(className = "letters")
@@ -28,15 +27,23 @@ public class TypingPage extends BasePage {
 	@FindBy(css = ".css-1qvtbrk h1")
 	private WebElement fullResult;
 
+	/**
+	 * Creates a Typing Page.
+	 * 
+	 * @param driver WebDriver instance shared between pages within a test.
+	 */
 	public TypingPage(WebDriver driver) {
 		super(driver);
 		action = new Actions(driver);
 	}
 
 	/**
-	 * Parses the paragraph displayed on-screen into the 'paragraph' String value.
+	 * Parses the paragraph displayed on-screen and returns it
+	 * 
+	 * @return	Paragraph displayed
 	 */
-	public void parseFullParagraph() {
+	public String getFullParagraph() {
+		String paragraph = "";
 		for (WebElement character : characters) {
 			String c = character.getText();
 			if (c.isBlank()) {
@@ -45,14 +52,17 @@ public class TypingPage extends BasePage {
 				paragraph += c;
 			}
 		}
+		return paragraph;
 	}
 
 	/**
-	 * Types the full paragraph into the window.
+	 * Types the given paragraph into the window.
+	 * 
+	 * @param	paragraph	Paragraph to type
 	 * 
 	 * @return	Integer		Words Per Minute given after finishing typing.
 	 */
-	public Integer typeTest() {
+	public Integer typeTest(String paragraph) {
 		action.moveToElement(playSpace).click().build().perform();
 		action.sendKeys(paragraph).build().perform();
 		return Integer.valueOf(fullResult.getText().split("wpm")[0]);

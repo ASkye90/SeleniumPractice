@@ -59,7 +59,7 @@ public class TutorialsNinjaTests extends BaseTest {
 	@Test
 	public void login(String email, String password, ITestContext context) {
 		TNMainPage mainPage = goToMain();
-		ExtentTest extentTest = createExtentTest("TN - Login", "Logs into the website", context);
+		ExtentTest extentTest = createExtentTest("Login", "Logs into the website", "Tutorials Ninja", context);
 		extentTest.log(Status.INFO, "Logging in");
 
 		AccountPage accountPage;
@@ -79,13 +79,14 @@ public class TutorialsNinjaTests extends BaseTest {
 	 * Test adding a product to the cart. Checks if the product exist and can be
 	 * successfully added to cart.
 	 * 
-	 * @param context Test context that is currently running
+	 * @param	productInfo		Map containing product name and desired options for entry
+	 * @param	context			Test context that is currently running
 	 */
 	@Test(dependsOnMethods = "login", dataProvider = "getProductsToAdd")
 	public void addProductToCart(HashMap<String, String> productInfo, ITestContext context) {
 		String product = productInfo.get("product");
-		ExtentTest extentTest = createExtentTest("TN - Add Product to Cart", "Adds a product to the cart.",
-				context);
+		ExtentTest extentTest = createExtentTest("Add Product to Cart: " + product, "Adds a product to the cart.",
+				"Tutorials Ninja", context);
 		addProductToCart(productInfo, extentTest);
 	}
 
@@ -95,13 +96,14 @@ public class TutorialsNinjaTests extends BaseTest {
 	 * Checks if an order can be successfully placed with the product in the
 	 * shopping cart.
 	 * 
-	 * @param context Test context that is currently running
+	 * @param	productInfo		Map containing product name and desired options for entry
+	 * @param 	context 		Test context that is currently running
 	 */
 	@Test(dependsOnMethods = "login", dataProvider = "getProductsToCheckout")
 	public void checkoutProduct(HashMap<String, String> productInfo, ITestContext context) {
 		String product = productInfo.get("product");
-		ExtentTest extentTest = createExtentTest("TN - Checkout Product: " + product, "Checksout with a specific product.",
-				context);
+		ExtentTest extentTest = createExtentTest("Checkout Product: " + product, "Checksout with a specific product.",
+				"Tutorials Ninja", context);
 		ProductPage productPage = addProductToCart(productInfo, extentTest);
 		ConfirmationPage confirmationPage = checkoutProduct(productPage, product, extentTest);
 		softAssert.assertEquals(confirmationPage.getConfirmationHeader(), "Your order has been placed!");
@@ -121,7 +123,6 @@ public class TutorialsNinjaTests extends BaseTest {
 		extentTest.log(Status.INFO, "Collecting category names");
 		List<String> categories = mainPage.getAllMenuCategories();
 		BaseTNPage currentPage = mainPage;
-
 
 		extentTest.log(Status.INFO, "Searching for " + product + " in each category.");
 		Boolean productFound = false;
@@ -199,7 +200,7 @@ public class TutorialsNinjaTests extends BaseTest {
 	 * Data Provider for addProductsToCart test.
 	 * 
 	 * @return HashMap at each index containing specific product name and options
-	 * @throws FileNotFoundException
+	 * @throws FileNotFoundException	JSON file AddProductsToCart.json not found
 	 */
 	@DataProvider
 	public Object[][] getProductsToAdd() throws FileNotFoundException {
@@ -210,7 +211,7 @@ public class TutorialsNinjaTests extends BaseTest {
 	 * Data Provider for addProductsToCart test.
 	 * 
 	 * @return HashMap at each index containing specific product name and options
-	 * @throws FileNotFoundException
+	 * @throws FileNotFoundException JSON file CheckoutWithProducts.json not found
 	 */
 	@DataProvider
 	public Object[][] getProductsToCheckout() throws FileNotFoundException {

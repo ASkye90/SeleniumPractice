@@ -37,7 +37,7 @@ public class CheckoutPage extends BaseTNPage {
 	 */
 	public void fillBillingDetails() {
 		WebElement billingDetails = getPanelByTitle("Billing Details");
-		billingDetails.findElement(By.cssSelector("input[type='button']")).click();
+		clickContinue(billingDetails);
 	}
 	
 	/**
@@ -45,7 +45,7 @@ public class CheckoutPage extends BaseTNPage {
 	 */
 	public void fillDeliveryDetails() {
 		WebElement deliveryDetails = getPanelByTitle("Delivery Details");
-		deliveryDetails.findElement(By.cssSelector("input[type='button']")).click();
+		clickContinue(deliveryDetails);
 	}
 	
 	/**
@@ -53,24 +53,28 @@ public class CheckoutPage extends BaseTNPage {
 	 */
 	public void fillDeliveryMethod() {
 		WebElement deliveryMethod = getPanelByTitle("Delivery Method");
-		deliveryMethod.findElement(By.cssSelector("input[type='button']")).click();
+		clickContinue(deliveryMethod);
 	}
 	
 	/**
-	 * Checks terms and conditions checkbox, then clicks continue on the payment method panel
+	 * Checks terms and conditions check box, then clicks continue on the payment method panel
 	 */
 	public void fillPaymentMethod() {
 		WebElement paymentMethod = getPanelByTitle("Payment Method");
+		WebElement button = paymentMethod.findElement(By.cssSelector("input[type='button']"));
+		wait.until(ExpectedConditions.elementToBeClickable(button));
 		paymentMethod.findElement(By.cssSelector("input[type='checkbox']")).click();
-		paymentMethod.findElement(By.cssSelector("input[type='button']")).click();
+		button.click();
 	}
 	
 	/**
 	 * Clicks continue on the confirm order panel
+	 * 
+	 * @return	Confirmation Page user lands in
 	 */
 	public ConfirmationPage confirmOrder() {
 		WebElement confirmOrder = getPanelByTitle("Confirm Order");
-		confirmOrder.findElement(By.cssSelector("input[type='button']")).click();
+		clickContinue(confirmOrder);
 		return new ConfirmationPage(driver);
 	}
 	
@@ -84,5 +88,16 @@ public class CheckoutPage extends BaseTNPage {
 		WebElement panel = checkoutPanels.stream().filter(e->e.findElement(By.className("panel-title")).getText().contains(panelTitle)).findFirst().get();
 		wait.until(ExpectedConditions.visibilityOf(panel));
 		return panel;
+	}
+	
+	/**
+	 * Clicks continue button on the given panel.
+	 * 
+	 * @param panel		Given panel
+	 */
+	private void clickContinue(WebElement panel) {
+		WebElement button = panel.findElement(By.cssSelector("input[type='button']"));
+		wait.until(ExpectedConditions.elementToBeClickable(button));
+		button.click();
 	}
 }

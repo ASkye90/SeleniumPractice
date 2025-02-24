@@ -24,7 +24,7 @@ public class HumanBenchmarkTests extends BaseTest {
 	/**
 	 * Load into the Main Page.
 	 * 
-	 * @return	The Main Page
+	 * @return The Main Page
 	 */
 	private HBMainPage goToMainPage() {
 		if (driver.getCurrentUrl() != url) {
@@ -34,16 +34,17 @@ public class HumanBenchmarkTests extends BaseTest {
 	}
 
 	/**
-	 * Runs a full set of turns in reaction game. 
-	 * Checks if the individual and end results displayed are valid (above 0).
+	 * Runs a full set of turns in reaction game. Checks if the individual and end
+	 * results displayed are valid (above 0).
 	 * 
-	 * @param context 	Test context that is currently running
+	 * @param context Test context that is currently running
 	 */
 	@Test
 	public void testSingleReactionGame(ITestContext context) {
 		HBMainPage mainPage = goToMainPage();
-		ExtentTest extentTest = createExtentTest("HB - Reaction Game",
-				"Runs a full 5 round reaction game and checks all reported times are above 0.", context);
+		ExtentTest extentTest = createExtentTest("Reaction Game",
+				"Runs a full 5 round reaction game and checks all reported times are above 0.", "Human Benchmark",
+				context);
 
 		extentTest.log(Status.INFO, "Clicking into Reaction Time");
 		ReactionTimePage reactionTime = mainPage.goToReactionTime();
@@ -69,25 +70,25 @@ public class HumanBenchmarkTests extends BaseTest {
 	}
 
 	/**
-	 * Types the full typing test. 
-	 * Checks if the WPM result displayed is valid (above 0).
+	 * Types the full typing test. Checks if the WPM result displayed is valid
+	 * (above 0).
 	 * 
-	 * @param context 	Test context that is currently running
+	 * @param context Test context that is currently running
 	 */
 	@Test
 	public void testTypingGame(ITestContext context) {
 		HBMainPage mainPage = goToMainPage();
-		ExtentTest extentTest = createExtentTest("HB - Typing Game",
-				"Runs one typing round and checks the reported wpm is above 0.", context);
+		ExtentTest extentTest = createExtentTest("Typing Game",
+				"Runs one typing round and checks the reported wpm is above 0.", "Human Benchmark", context);
 
 		extentTest.log(Status.INFO, "Clicking into Typing Game");
-		TypingPage typingPage = mainPage.goToTyping();
+		TypingPage typingPage = mainPage.goToTypingPage();
 
 		extentTest.log(Status.INFO, "Collecting paragraph into String");
-		typingPage.parseFullParagraph();
+		String paragraph = typingPage.getFullParagraph();
 
 		extentTest.log(Status.INFO, "Typing full paragraph");
-		int result = typingPage.typeTest();
+		int result = typingPage.typeTest(paragraph);
 		extentTest.log(Status.INFO, "Finished typing paragraph at " + result + "wpm");
 
 		Assert.assertTrue(result > 0, "Typing time displayed as below 0, " + result + "wpm");

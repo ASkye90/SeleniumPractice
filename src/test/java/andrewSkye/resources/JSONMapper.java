@@ -19,9 +19,9 @@ public class JSONMapper {
 	/**
 	 * Parse a JSON file into a Map
 	 * 
-	 * @param relativeFilePath File path to JSON relative to project root directory
+	 * @param	relativeFilePath	File path to JSON relative to project root directory
 	 * @return Map representing JSON file
-	 * @throws FileNotFoundException
+	 * @throws FileNotFoundException	Unable to find JSON file at relativeFilePath.
 	 */
 	public static List<HashMap<String, String>> parseJSON(String relativeFilePath) throws FileNotFoundException {
 		File jsonFile = new File(System.getProperty("user.dir") + relativeFilePath);

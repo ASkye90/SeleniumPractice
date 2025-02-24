@@ -30,7 +30,7 @@ public class HerokuappTests extends BaseTest {
 	/**
 	 * Load into the Main Page.
 	 * 
-	 * @return	The Main Page
+	 * @return The Main Page
 	 */
 	private HerokuappMainPage goToMainPage() {
 		if (driver.getCurrentUrl() != url) {
@@ -42,16 +42,16 @@ public class HerokuappTests extends BaseTest {
 	/**
 	 * Checks if the title and header are correct in AB Testing page
 	 * 
-	 * @param context 	Test context that is currently running
+	 * @param context Test context that is currently running
 	 */
 	@Test
 	public void testABPage(ITestContext context) {
 		HerokuappMainPage mainPage = goToMainPage();
 		String expectedHeader = "A/B Test";
 		String expectedTitle = "The Internet";
-		ExtentTest extentTest = createExtentTest("Hrku - AB Page",
+		ExtentTest extentTest = createExtentTest("AB Page",
 				"Checks the page title is " + expectedTitle + " and page header contains " + expectedHeader + ".",
-				context);
+				"Herokuapp", context);
 
 		extentTest.log(Status.INFO, "Clicking into AB Page");
 		ABTestingPage abPage = mainPage.goToABTestingPage();
@@ -67,18 +67,17 @@ public class HerokuappTests extends BaseTest {
 	}
 
 	/**
-	 * Flaky test 
-	 * Checks if the page can dynamically load with duplicate elements.
+	 * Flaky test Checks if the page can dynamically load with duplicate elements.
 	 * 
-	 * @param context 	Test context that is currently running
+	 * @param context Test context that is currently running
 	 */
 	@Test(retryAnalyzer = TestNGRetry.class)
 	public void testDynamicPage(ITestContext context) {
 		HerokuappMainPage mainPage = goToMainPage();
 		int numDuplicates = 3;
 		int maxRefreshes = 50;
-		ExtentTest extentTest = createExtentTest("Hrku - Dynamic Content Page", "Checks if user can find a page with "
-				+ numDuplicates + " duplicated avatars within " + maxRefreshes + " refreshes.", context);
+		ExtentTest extentTest = createExtentTest("Dynamic Content Page", "Checks if user can find a page with "
+				+ numDuplicates + " duplicated avatars within " + maxRefreshes + " refreshes.", "Herokuapp", context);
 
 		extentTest.log(Status.INFO, "Clicking into Dynamic Content Page");
 		DynamicContentPage dynamicPage = mainPage.goToDynamicContentPage();
@@ -93,16 +92,16 @@ public class HerokuappTests extends BaseTest {
 	}
 
 	/**
-	 * Clicks into a random user profile. 
-	 * Checks if user profile matches with the user clicked.
+	 * Clicks into a random user profile. Checks if user profile matches with the
+	 * user clicked.
 	 * 
-	 * @param context 	Test context that is currently running
+	 * @param context Test context that is currently running
 	 */
 	@Test
 	public void testHoversPage(ITestContext context) {
 		HerokuappMainPage mainPage = goToMainPage();
-		ExtentTest extentTest = createExtentTest("Hrku - Hovers Page",
-				"Clicks into a random user profile and checks if it loads the correct profile.", context);
+		ExtentTest extentTest = createExtentTest("Hovers Page",
+				"Clicks into a random user profile and checks if it loads the correct profile.", "Herokuapp", context);
 
 		extentTest.log(Status.INFO, "Clicking into Hovers Page");
 		HoversPage hoversPage = mainPage.goToHoversPage();

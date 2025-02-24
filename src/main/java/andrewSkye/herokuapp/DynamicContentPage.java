@@ -31,7 +31,7 @@ public class DynamicContentPage extends BasePage {
 	 * Tries to find a specific Avatar picture on the page in a given number of page
 	 * refreshes.
 	 * 
-	 * @param Avatar Name of Avatar to find
+	 * @param avatar Name of Avatar to find
 	 * 
 	 * @param maxTries Maximum number of times to try refreshing.
 	 * 

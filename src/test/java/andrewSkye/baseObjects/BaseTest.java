@@ -26,9 +26,10 @@ import andrewSkye.resources.ExtentReporter;
  */
 public class BaseTest {
 
-	public WebDriver driver;
+	protected WebDriver driver;
 	protected SoftAssert softAssert;
 	private static ExtentReports reporter = ExtentReporter.getReportObject();
+	private String browser;
 
 	/**
 	 * Run before any test begins, starting a new WebDriver instance and attaching
@@ -44,7 +45,7 @@ public class BaseTest {
 		FileInputStream fis = new FileInputStream(
 				System.getProperty("user.dir") + "//src//main//java//andrewSkye//resources//Global.properties");
 		properties.load(fis);
-		String browser = properties.getProperty("browser");
+		browser = properties.getProperty("browser");
 
 		switch (browser) {
 			case "chromeheadless":
@@ -67,7 +68,6 @@ public class BaseTest {
 
 		driver.manage().window().maximize();
 		softAssert = new SoftAssert();
-		reporter.setSystemInfo("browser", browser);
 		context.setAttribute("reporter", reporter);
 	}
 
@@ -98,9 +98,12 @@ public class BaseTest {
 	 * 
 	 * @testDescription Description of the test
 	 */
-	protected ExtentTest createExtentTest(String testName, String testDescription, ITestContext context) {
+	protected ExtentTest createExtentTest(String testName, String testDescription, String testCategory, ITestContext context) {
 		ExtentTest extentTest = reporter.createTest(testName, testDescription);
 		context.setAttribute("extentTest", extentTest);
+		extentTest.assignAuthor("Andrew Skye");
+		extentTest.assignDevice(browser);
+		extentTest.assignCategory(testCategory);
 		return extentTest;
 	}
 }

@@ -9,11 +9,33 @@ import org.testng.ITestResult;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 
+/**
+ * Class for custom IRetryAnalyzer methods to run with tests.
+ * 
+ * @author Andrew Skye
+ */
 public class TestNGRetry implements IRetryAnalyzer {
 
 	int count = 0;
 	int maxTry = 2;
 
+	/**
+	 * Takes a screenshot of the current browser state
+	 * 
+	 * @param driver WebDriver instance running the current test.
+	 * @return Base64 screenshot as a String
+	 */
+	private String getScreenshot(WebDriver driver) {
+		TakesScreenshot ts = (TakesScreenshot) driver;
+		return ts.getScreenshotAs(OutputType.BASE64);
+	}
+
+	/**
+	 * Returns true if the test method has to be retried, false otherwise.
+	 *
+	 * @param result The result of the test method that just ran.
+	 * @return true if the test method has to be retried, false otherwise.
+	 */
 	@Override
 	public boolean retry(ITestResult result) {
 		ExtentTest test = (ExtentTest) result.getTestContext().getAttribute("extentTest");
@@ -32,10 +54,5 @@ public class TestNGRetry implements IRetryAnalyzer {
 			return true;
 		}
 		return false;
-	}
-
-	private String getScreenshot(WebDriver driver) {
-		TakesScreenshot ts = (TakesScreenshot) driver;
-		return ts.getScreenshotAs(OutputType.BASE64);
 	}
 }
